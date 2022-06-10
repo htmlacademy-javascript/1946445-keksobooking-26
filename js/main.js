@@ -126,4 +126,6 @@ const createAdvert = function(value, index) {
 
 const adverts = Array.from({length: 10}, createAdvert);
 
+/* eslint-disable */
 console.log(adverts);
+/* eslint-enable */
