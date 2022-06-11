@@ -35,18 +35,9 @@ const addLeadingZeros = (value, size) => {
 
 const AVATARS = shuffle(Array.from({length: 10}, (value, index) => `img/avatars/user${addLeadingZeros(index + 1, 2)}.png`));
 
-const TITLES = [
-  'header1',
-  'header2',
-  'header3',
-  'header4',
-  'header5',
-  'header6',
-  'header7',
-  'header8',
-  'header9',
-  'header10'
-];
+const TITLES = shuffle(Array.from({length: 10}, (value, index) => `title${addLeadingZeros(index + 1, 2)}`));
+
+const DESCRIPTIONS = shuffle(Array.from({length: 10}, (value, index) => `description${addLeadingZeros(index + 1, 2)}`));
 
 const TYPES = [
   'palace',
@@ -77,19 +68,6 @@ const FEATURES_ARRAY = [
   'conditioner'
 ];
 
-const DESCRIPTIONS = [
-  'description1',
-  'description2',
-  'description3',
-  'description4',
-  'description5',
-  'description6',
-  'description7',
-  'description8',
-  'description9',
-  'description'
-];
-
 const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
@@ -108,7 +86,7 @@ const createAdvert = function(value, index) {
       avatar: AVATARS[index]
     },
     offer: {
-      title: getRandomArrayElement(TITLES),
+      title: TITLES[index],
       address: Object.values(LOCATION).join(', '),
       price: getRandomPositiveInteger(1000, 20000),
       type: getRandomArrayElement(TYPES),
@@ -117,7 +95,7 @@ const createAdvert = function(value, index) {
       checkin: getRandomArrayElement(CHECKINGS),
       checkout: getRandomArrayElement(CHECKOUTS),
       features: getRandomArray(FEATURES_ARRAY),
-      description: getRandomArrayElement(DESCRIPTIONS),
+      description: DESCRIPTIONS[index],
       photos: getRandomArray(PHOTOS)
     },
     location: LOCATION,
