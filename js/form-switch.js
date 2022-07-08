@@ -20,12 +20,12 @@ const disableForms = () => {
 const enableForms = () => {
   formNew.classList.remove('ad-form--disabled');
   formFilters.classList.remove('.map__filters--disabled');
-  formSlider.removeAttribute('disabled', 'disabled');
+  formSlider.removeAttribute('disabled');
   for (let i = 0; i < formNewComponents.length; i++) {
-    formNewComponents[i].removeAttribute('disabled', 'disabled');
+    formNewComponents[i].removeAttribute('disabled');
   }
   for (let i = 0; i < formFiltersComponents.length; i++) {
-    formFiltersComponents[i].removeAttribute('disabled', 'disabled');
+    formFiltersComponents[i].removeAttribute('disabled');
   }
 };
 
