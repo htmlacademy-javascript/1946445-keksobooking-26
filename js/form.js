@@ -3,6 +3,36 @@ const formFilters = document.querySelector('.map__filters');
 const formNewComponents = formNew.children;
 const formSlider = formNew.querySelector('.ad-form__slider');
 const formFiltersComponents = formFilters.children;
+const roomNumber = formNew.querySelector('#room_number');
+const roomCapacity = formNew.querySelector('#capacity');
+
+const pristine = new Pristine(formNew, {
+  classTo: 'ad-form__element',
+  errorClass: 'ad-form__element--invalid',
+  successClass: 'ad-form__element--valid',
+  errorTextTag: 'span',
+  errorTextParent: 'ad-form__element',
+  errorTextClass: 'ad-form__error-text',
+});
+
+const roomNumberCapacityCorrelation = {
+  '1': '1',
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': '0'
+};
+
+const validateCapacity = (value) => roomNumberCapacityCorrelation[roomNumber.value].includes(value);
+pristine.addValidator(roomCapacity, validateCapacity, 'Некорректное соотношение комнат и гостей');
+formNew.addEventListener('change', () => {
+  pristine.validate(roomCapacity);
+});
+
+formNew.addEventListener('submit', (evt) => {
+  if(!pristine.validate()) {
+    evt.preventDefault();
+  }
+});
 
 const disableForms = () => {
   formNew.classList.add('ad-form--disabled');
