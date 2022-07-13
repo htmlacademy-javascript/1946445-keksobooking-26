@@ -10,13 +10,17 @@ const roomPrice = formNew.querySelector('#price');
 const checkin = formNew.querySelector('#timein');
 const checkout = formNew.querySelector('#timeout');
 
-const pristine = new Pristine(formNew, {
-  classTo: 'ad-form__element',
-  errorClass: 'ad-form__element--invalid',
-  errorTextTag: 'span',
-  errorTextParent: 'ad-form__element',
-  errorTextClass: 'ad-form__error-text',
-});
+
+function getPristine() {
+  return new Pristine(formNew, {
+    classTo: 'ad-form__element',
+    errorClass: 'ad-form__element--invalid',
+    errorTextTag: 'span',
+    errorTextParent: 'ad-form__element',
+    errorTextClass: 'ad-form__error-text',
+  });
+}
+let pristine = getPristine();
 
 const roomNumberCapacityCorrelation = {
   '1': '1',
@@ -36,21 +40,33 @@ const roomTypePrice = {
 const roomMaxPrice = 100000;
 
 const validateCapacity = (value) => roomNumberCapacityCorrelation[roomNumber.value].includes(value);
-pristine.addValidator(roomCapacity, validateCapacity, 'Некорректное соотношение комнат и гостей');
+
 formNew.addEventListener('change', () => {
   pristine.validate(roomCapacity);
 });
 
 roomPrice.placeholder = 1000;
-const setRoomMinPrice = () => roomTypePrice[roomType.value];
+const getRoomMinPrice = () => roomTypePrice[roomType.value];
+const validateRoomPrice = (value) => value >= getRoomMinPrice() && value <= roomMaxPrice;
+
+
+const setValidator = () => {
+  pristine.destroy();
+  roomPrice.min = 0;
+  pristine = getPristine();
+  const validateRoomPriceErrorMessage = `Цена не может быть ниже ${getRoomMinPrice()}руб и выше ${roomMaxPrice}руб`;
+  pristine.addValidator(roomPrice, validateRoomPrice, validateRoomPriceErrorMessage);
+  roomPrice.min = getRoomMinPrice();
+  pristine.addValidator(roomCapacity, validateCapacity, 'Некорректное соотношение комнат и гостей');
+  pristine.validate();
+};
+
 roomType.addEventListener('change', () => {
-  roomPrice.min = setRoomMinPrice();
-  roomPrice.placeholder = setRoomMinPrice();
+  roomPrice.placeholder = getRoomMinPrice();
+  setValidator();
 });
 
-const validateRoomPrice = (value) => value >= setRoomMinPrice() && value <= roomMaxPrice;
-const validateRoomPriceErrorMessage = `Цена не может быть ниже ${setRoomMinPrice()}руб и выше ${roomMaxPrice}руб`;
-pristine.addValidator(roomPrice, validateRoomPrice, validateRoomPriceErrorMessage);
+setValidator();
 
 checkin.addEventListener('change', () => {
   checkout.value = checkin.value;
