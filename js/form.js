@@ -9,6 +9,7 @@ const roomType = formNew.querySelector('#type');
 const roomPrice = formNew.querySelector('#price');
 const checkin = formNew.querySelector('#timein');
 const checkout = formNew.querySelector('#timeout');
+const sliderElement = formNew.querySelector('.ad-form__slider');
 
 
 function getPristine() {
@@ -38,6 +39,29 @@ const roomTypePrice = {
 };
 
 const roomMaxPrice = 100000;
+roomPrice.value = 1000;
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 1000,
+    max: 10000,
+  },
+  start: 1000,
+  step: 100,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  roomPrice.value = sliderElement.noUiSlider.get();
+});
 
 const validateCapacity = (value) => roomNumberCapacityCorrelation[roomNumber.value].includes(value);
 
@@ -63,7 +87,18 @@ const setValidator = () => {
 
 roomType.addEventListener('change', () => {
   roomPrice.placeholder = getRoomMinPrice();
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: getRoomMinPrice(),
+      max: 10000
+    },
+    start: getRoomMinPrice(),
+  });
   setValidator();
+});
+
+roomPrice.addEventListener('change', () => {
+  sliderElement.noUiSlider.set(roomPrice.value);
 });
 
 setValidator();
@@ -107,6 +142,5 @@ const enableForms = () => {
 };
 
 disableForms();
-enableForms();
 
-export {disableForms, enableForms};
+export {disableForms, enableForms, formNew};
