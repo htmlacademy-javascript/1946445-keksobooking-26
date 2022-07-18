@@ -98,7 +98,7 @@ roomType.addEventListener('change', () => {
 });
 
 roomPrice.addEventListener('change', () => {
-  sliderElement.noUiSlider.set(roomPrice.value, null);
+  sliderElement.noUiSlider.set([roomPrice.value, null]);
 });
 
 setValidator();
