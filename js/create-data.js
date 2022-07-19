@@ -71,13 +71,6 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-
-const LOCATION = {
-  lat: getRandomPositiveFloat(35.65000, 35.70000),
-  lng: getRandomPositiveFloat(139.70000, 139.80000)
-};
-
-
 const createAdvert = function() {
   return {
     author: {
@@ -104,6 +97,5 @@ const createAdvert = function() {
 };
 
 const createAdverts = Array.from({length: 10}, createAdvert);
-console.log(createAdverts)
 
 export {createAdverts};
