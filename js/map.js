@@ -43,7 +43,7 @@ createAdverts.forEach((offer)=>{
   {
     icon: icon,
   });
-  marker.addTo(map).bindPopup(createPopup(offer));
+  marker.addTo(map).bindPopup(() => createPopup(offer));
 });
 
 mainPinMarker.on('moveend', (evt) => {

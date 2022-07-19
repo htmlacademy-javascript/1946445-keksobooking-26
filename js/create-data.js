@@ -85,7 +85,7 @@ const createAdvert = function() {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${LOCATION.lat}, ${LOCATION.lng}`,
+      address: `${getRandomPositiveFloat(35.65000, 35.70000)}, ${getRandomPositiveFloat(139.70000, 139.80000)}`,
       price: getRandomPositiveInteger(1000, 20000),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomPositiveInteger(1, 5),
@@ -97,12 +97,13 @@ const createAdvert = function() {
       photos: getRandomArray(PHOTOS)
     },
     location: {
-      lat: LOCATION.lat,
-      lng: LOCATION.lng
+      lat: getRandomPositiveFloat(35.65000, 35.70000),
+      lng: getRandomPositiveFloat(139.70000, 139.80000)
     },
   };
 };
 
 const createAdverts = Array.from({length: 10}, createAdvert);
+console.log(createAdverts)
 
 export {createAdverts};
