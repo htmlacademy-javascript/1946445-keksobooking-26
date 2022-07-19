@@ -105,4 +105,4 @@ const createAdvert = function() {
 
 const createAdverts = Array.from({length: 10}, createAdvert);
 
-export {createAdverts, LOCATION};
+export {createAdverts};

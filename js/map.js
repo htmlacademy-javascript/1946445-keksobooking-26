@@ -1,6 +1,6 @@
 import {enableForms, formNew} from './form.js';
 import {createPopup} from './popup.js';
-import {LOCATION} from './create-data.js';
+import {createAdverts} from './create-data.js';
 
 const address = formNew.querySelector('#address');
 const map = L.map('map-canvas');
@@ -35,18 +35,16 @@ const mainPinMarker = L.marker(
   },
 );
 
-const createMarker = () => {
-  const marker = L.marker(
-    {
-      lat: LOCATION.lat,
-      lng: LOCATION.lng,
-    },
-    {
-      icon: icon,
-    },
-  );
-  marker.addTo(markerGroup).bindPopup(createPopup());
-};
+createAdverts.forEach((offer)=>{
+  const marker = L.marker({
+    lat: offer.location.lat,
+    lng: offer.location.lng
+  },
+  {
+    icon: icon,
+  });
+  marker.addTo(map).bindPopup(createPopup(offer));
+});
 
 mainPinMarker.on('moveend', (evt) => {
   const latitude = evt.target.getLatLng().lat.toFixed(5);
@@ -54,7 +52,7 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = `Координаты: ${latitude}, ${longitude}`;
 });
 
-const activateMap = () => {
+const initMap = () => {
   enableForms();
   mainPinMarker.addTo(map);
   map.on('load', () => {
@@ -77,5 +75,5 @@ const resetMap = () => {
 };
 
 resetMap();
-activateMap();
-createMarker();
+initMap();
+
