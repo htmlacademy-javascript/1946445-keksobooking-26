@@ -1,6 +1,9 @@
 import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getRandomArray, addLeadingZeros} from './util.js';
 
-const AVATARS = Array.from({length: 10}, () => `img/avatars/user${addLeadingZeros(getRandomPositiveInteger(1, 10), 2)}.png`);
+const AVATARS = [];
+for (let i = 1; i <= 10; i++) {
+  AVATARS.push(`img/avatars/user${addLeadingZeros(i, 2)}.png`);
+}
 
 const TITLES = [
   'Imperial Hotel Tokyo',
@@ -88,5 +91,6 @@ const createAdvert = function() {
 };
 
 const createAdverts = Array.from({length: 10}, createAdvert);
+console.log(createAdverts)
 
 export {createAdverts};
