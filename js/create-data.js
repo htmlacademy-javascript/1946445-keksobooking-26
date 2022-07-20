@@ -63,12 +63,12 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const createAdvert = function() {
+const createAdvert = function(i) {
   const lat = getRandomPositiveFloat(35.65000, 35.70000);
   const lng = getRandomPositiveFloat(139.70000, 139.80000);
   return {
     author: {
-      avatar: getRandomArrayElement(AVATARS)
+      avatar: AVATARS[i]
     },
     offer: {
       title: getRandomArrayElement(TITLES),
@@ -90,6 +90,16 @@ const createAdvert = function() {
   };
 };
 
-const createAdverts = Array.from({length: 10}, createAdvert);
+const createAdverts = [];
+
+const ad = () => {
+  for (let i = 0; i <= 9; i++) {
+    createAdverts.push(createAdvert(i));
+  }
+  return createAdverts;
+};
+
+// eslint-disable-next-line no-console
+console.log(ad());
 
 export {createAdverts};
