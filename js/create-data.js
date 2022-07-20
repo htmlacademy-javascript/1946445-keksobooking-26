@@ -1,17 +1,6 @@
-import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getRandomArray} from './util.js';
+import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getRandomArray, addLeadingZeros} from './util.js';
 
-const AVATARS = [
-  'img/avatars/user01.png',
-  'img/avatars/user02.png',
-  'img/avatars/user03.png',
-  'img/avatars/user04.png',
-  'img/avatars/user05.png',
-  'img/avatars/user06.png',
-  'img/avatars/user07.png',
-  'img/avatars/user08.png',
-  'img/avatars/user09.png',
-  'img/avatars/user10.png',
-];
+const AVATARS = Array.from({length: 10}, () => `img/avatars/user${addLeadingZeros(getRandomPositiveInteger(1, 10), 2)}.png`);
 
 const TITLES = [
   'Imperial Hotel Tokyo',
@@ -72,13 +61,15 @@ const PHOTOS = [
 ];
 
 const createAdvert = function() {
+  const lat = getRandomPositiveFloat(35.65000, 35.70000);
+  const lng = getRandomPositiveFloat(139.70000, 139.80000);
   return {
     author: {
       avatar: getRandomArrayElement(AVATARS)
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${getRandomPositiveFloat(35.65000, 35.70000)}, ${getRandomPositiveFloat(139.70000, 139.80000)}`,
+      address: `Координаты: ${lat}, ${lng}`,
       price: getRandomPositiveInteger(1000, 20000),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomPositiveInteger(1, 5),
@@ -90,8 +81,8 @@ const createAdvert = function() {
       photos: getRandomArray(PHOTOS)
     },
     location: {
-      lat: getRandomPositiveFloat(35.65000, 35.70000),
-      lng: getRandomPositiveFloat(139.70000, 139.80000)
+      lat,
+      lng
     },
   };
 };
