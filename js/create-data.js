@@ -1,10 +1,32 @@
-import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle, getRandomArray, addLeadingZeros} from './util.js';
+import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getRandomArray, addLeadingZeros} from './util.js';
 
-const AVATARS = shuffle(Array.from({length: 10}, (value, index) => `img/avatars/user${addLeadingZeros(index + 1, 2)}.png`));
+const AVATARS = [];
+for (let i = 1; i <= 10; i++) {
+  AVATARS.push(`img/avatars/user${addLeadingZeros(i, 2)}.png`);
+}
 
-const TITLES = shuffle(Array.from({length: 10}, (value, index) => `title${addLeadingZeros(index + 1, 2)}`));
+const TITLES = [
+  'Imperial Hotel Tokyo',
+  'Akasaka Prince',
+  'Ginza Capital',
+  'Villa Fontaine Shiodome',
+  'Keio Plaza',
+  'Shinjuku Washington',
+  'Conrad Tokyo',
+  'Okura Tokyo',
+  'Century Southern Tower',
+  'Marunouchi'
+];
 
-const DESCRIPTIONS = shuffle(Array.from({length: 10}, (value, index) => `description${addLeadingZeros(index + 1, 2)}`));
+const DESCRIPTIONS = [
+  'Cтандарт',
+  'Комфорт',
+  'Комфорт плюс',
+  'Бизнес',
+  'Бизнес плюс',
+  'Элит',
+  'Премиум Элит'
+];
 
 const TYPES = [
   'palace',
@@ -41,20 +63,16 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-
-const LOCATION = {
-  lat: getRandomPositiveFloat(35.65000, 35.70000),
-  lng: getRandomPositiveFloat(139.70000, 139.80000)
-};
-
-const createAdvert = function(value, index) {
+const createAdvert = function(i) {
+  const lat = getRandomPositiveFloat(35.65000, 35.70000);
+  const lng = getRandomPositiveFloat(139.70000, 139.80000);
   return {
     author: {
-      avatar: AVATARS[index]
+      avatar: AVATARS[i]
     },
     offer: {
-      title: TITLES[index],
-      address: Object.values(LOCATION).join(', '),
+      title: getRandomArrayElement(TITLES),
+      address: `Координаты: ${lat}, ${lng}`,
       price: getRandomPositiveInteger(1000, 20000),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomPositiveInteger(1, 5),
@@ -62,13 +80,26 @@ const createAdvert = function(value, index) {
       checkin: getRandomArrayElement(CHECKINGS),
       checkout: getRandomArrayElement(CHECKOUTS),
       features: getRandomArray(FEATURES_ARRAY),
-      description: DESCRIPTIONS[index],
+      description: getRandomArrayElement(DESCRIPTIONS),
       photos: getRandomArray(PHOTOS)
     },
-    location: LOCATION,
+    location: {
+      lat,
+      lng
+    },
   };
 };
 
-const createAdverts = () => Array.from({length: 10}, createAdvert);
+const createAdverts = [];
+
+const ad = () => {
+  for (let i = 0; i <= 9; i++) {
+    createAdverts.push(createAdvert(i));
+  }
+  return createAdverts;
+};
+
+// eslint-disable-next-line no-console
+console.log(ad());
 
 export {createAdverts};
