@@ -91,6 +91,5 @@ const createAdvert = function() {
 };
 
 const createAdverts = Array.from({length: 10}, createAdvert);
-console.log(createAdverts)
 
 export {createAdverts};
