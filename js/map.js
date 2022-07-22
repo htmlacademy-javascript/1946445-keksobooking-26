@@ -1,7 +1,6 @@
-import {enableForms, formNew} from './form.js';
 import {createPopup} from './popup.js';
-import {createAdverts} from './create-data.js';
 
+const formNew = document.querySelector('.ad-form');
 const address = formNew.querySelector('#address');
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
@@ -35,28 +34,39 @@ const mainPinMarker = L.marker(
   },
 );
 
-createAdverts.forEach((offer)=>{
-  const marker = L.marker({
-    lat: offer.location.lat,
-    lng: offer.location.lng
-  },
-  {
-    icon: icon,
-  });
-  marker.addTo(map).bindPopup(() => createPopup(offer));
-});
 
-mainPinMarker.on('moveend', (evt) => {
-  const latitude = evt.target.getLatLng().lat.toFixed(5);
-  const longitude = evt.target.getLatLng().lng.toFixed(5);
-  address.value = `Координаты: ${latitude}, ${longitude}`;
-});
+const renderMarker = (element) => {
+  const pinMarker = L.marker(
+    {
+      lat: element.location.lat,
+      lng: element.location.lng,
+    },
+    {
+      icon: icon,
+    },
+  );
+  pinMarker.addTo(markerGroup).bindPopup(createPopup(element));
+};
+
+const renderMarkers = (ads) => {
+  ads.forEach((ad) => {
+    renderMarker(ad);
+  });
+};
+
+const moveMainPinMarker = () => {
+  mainPinMarker.on('moveend', (evt) => {
+    const latitude = evt.target.getLatLng().lat.toFixed(5);
+    const longitude = evt.target.getLatLng().lng.toFixed(5);
+    address.value = `Координаты: ${latitude}, ${longitude}`;
+  });
+};
 
 const initMap = () => {
-  enableForms();
-  mainPinMarker.addTo(map);
+  address.value = `Координаты: ${COORDINATES.lat}, ${COORDINATES.lng}`;
   map.on('load', () => {
-    address.value = `Координаты: ${COORDINATES.lat}, ${COORDINATES.lng}`;
+    mainPinMarker.addTo(map);
+    moveMainPinMarker();
   })
     .setView(COORDINATES, ZOOM);
   L.tileLayer(
@@ -68,12 +78,15 @@ const initMap = () => {
 };
 
 const resetMap = () => {
-  markerGroup.clearLayers();
   address.value = `Координаты: ${COORDINATES.lat}, ${COORDINATES.lng}`;
   mainPinMarker.setLatLng(COORDINATES);
   map.setView(COORDINATES, ZOOM);
 };
 
-resetMap();
+const resetMarkers = () => {
+  markerGroup.clearLayers();
+};
+
 initMap();
 
+export {renderMarkers, initMap, resetMap, resetMarkers};

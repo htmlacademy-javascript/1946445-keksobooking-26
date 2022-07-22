@@ -16,7 +16,6 @@ const getRoomNumber = (quantity) => {
   }
 };
 
-const userFragment = document.createDocumentFragment();
 const addTemplate = document.querySelector('#card').content.querySelector('.popup');
 const addElement = addTemplate.cloneNode(true);
 const featureContainer = addElement.querySelector('.popup__features');
@@ -56,5 +55,5 @@ const createPopup = (element) => {
   return addElement;
 };
 
-export {userFragment, createPopup};
+export {createPopup};
 

@@ -1,3 +1,7 @@
+import {sendData} from './api.js';
+import {resetMap} from './map.js';
+import {showAlert} from './util.js';
+
 const formNew = document.querySelector('.ad-form');
 const formFilters = document.querySelector('.map__filters');
 const formNewComponents = formNew.children;
@@ -10,6 +14,11 @@ const roomPrice = formNew.querySelector('#price');
 const checkin = formNew.querySelector('#timein');
 const checkout = formNew.querySelector('#timeout');
 const sliderElement = formNew.querySelector('.ad-form__slider');
+const submitButton = formNew.querySelector('.ad-form__submit');
+const resetButton = formNew.querySelector('.ad-form__reset');
+const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+const errorCloseButton = document.querySelector('.error__button');
 
 
 function getPristine() {
@@ -44,7 +53,7 @@ roomPrice.value = 1000;
 noUiSlider.create(sliderElement, {
   range: {
     min: 1000,
-    max: 10000,
+    max: roomMaxPrice,
   },
   start: 1000,
   step: 100,
@@ -61,6 +70,7 @@ noUiSlider.create(sliderElement, {
 
 sliderElement.noUiSlider.on('update', () => {
   roomPrice.value = sliderElement.noUiSlider.get();
+  pristine.validate(roomPrice);
 });
 
 const validateCapacity = (value) => roomNumberCapacityCorrelation[roomNumber.value].includes(value);
@@ -90,7 +100,7 @@ roomType.addEventListener('change', () => {
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: getRoomMinPrice(),
-      max: 10000
+      max: roomMaxPrice
     },
     start: getRoomMinPrice(),
   });
@@ -110,23 +120,18 @@ checkout.addEventListener('change', () => {
   checkin.value = checkout.value;
 });
 
-formNew.addEventListener('submit', (evt) => {
-  if(!pristine.validate()) {
-    evt.preventDefault();
-  }
-});
 
-const disableForms = () => {
-  formNew.classList.add('ad-form--disabled');
-  formFilters.classList.add('.map__filters--disabled');
-  formSlider.setAttribute('disabled', 'disabled');
-  for (let i = 0; i < formNewComponents.length; i++) {
-    formNewComponents[i].setAttribute('disabled', 'disabled');
-  }
-  for (let i = 0; i < formFiltersComponents.length; i++) {
-    formFiltersComponents[i].setAttribute('disabled', 'disabled');
-  }
-};
+// const disableForms = () => {
+//   formNew.classList.add('ad-form--disabled');
+//   formFilters.classList.add('.map__filters--disabled');
+//   formSlider.setAttribute('disabled', 'disabled');
+//   for (let i = 0; i < formNewComponents.length; i++) {
+//     formNewComponents[i].setAttribute('disabled', 'disabled');
+//   }
+//   for (let i = 0; i < formFiltersComponents.length; i++) {
+//     formFiltersComponents[i].setAttribute('disabled', 'disabled');
+//   }
+// };
 
 
 const enableForms = () => {
@@ -141,6 +146,83 @@ const enableForms = () => {
   }
 };
 
-disableForms();
+// disableForms();
 
-export {disableForms, enableForms, formNew};
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуем...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const showSuccessMessage = () => {
+  document.body.appendChild(successMessage);
+  setTimeout(() => {
+    successMessage.remove();
+  }, 5000);
+};
+
+const showErrorMessage = () => {
+  document.body.appendChild(errorMessage);
+};
+
+const closeErrorMessage = () => {
+  errorCloseButton.addEventListener('click', () => {
+    errorMessage.remove();
+  });
+};
+
+const removeMessageOnEsc = (evt) => {
+  if (evt.keyCode === 27) {
+    successMessage.remove();
+    errorMessage.remove();
+  }
+};
+
+document.addEventListener('keydown', removeMessageOnEsc);
+
+const resetForm = () => {
+  formNew.reset();
+  resetMap();
+  sliderElement.noUiSlider.reset();
+  roomPrice.min = 1000;
+  roomPrice.value = 1000;
+  pristine.reset();
+  setValidator();
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+});
+
+const setUserFormSubmit = (onSuccess) => {
+  formNew.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if(isValid) {
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+          resetForm();
+          resetMap();
+        },
+        () => {
+          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    } else {
+      showErrorMessage();
+      closeErrorMessage();
+    }
+  });
+};
+
+export {enableForms, formNew, blockSubmitButton, unblockSubmitButton, showSuccessMessage, showErrorMessage, resetForm, setUserFormSubmit};
+
