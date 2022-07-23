@@ -18,7 +18,7 @@ const submitButton = formNew.querySelector('.ad-form__submit');
 const resetButton = formNew.querySelector('.ad-form__reset');
 const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-const errorCloseButton = document.querySelector('.error__button');
+const errorCloseButton = errorMessage.querySelector('.error__button');
 
 
 function getPristine() {
