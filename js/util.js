@@ -1,4 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
+const GET_DATA_SERVER = 'https://26.javascript.pages.academy/keksobooking/data';
+const SEND_DATA_SERVER = 'https://26.javascript.pages.academy/keksobooking';
 
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -56,4 +58,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle, getRandomArray, addLeadingZeros, showAlert};
+export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, shuffle, getRandomArray, addLeadingZeros, showAlert, GET_DATA_SERVER, SEND_DATA_SERVER};

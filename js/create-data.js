@@ -99,7 +99,4 @@ const ad = () => {
   return createAdverts;
 };
 
-// eslint-disable-next-line no-console
-console.log(ad());
-
 export {createAdverts};

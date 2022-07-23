@@ -35,17 +35,17 @@ const mainPinMarker = L.marker(
 );
 
 
-const renderMarker = (element) => {
+const renderMarker = (ad) => {
   const pinMarker = L.marker(
     {
-      lat: element.location.lat,
-      lng: element.location.lng,
+      lat: ad.location.lat,
+      lng: ad.location.lng,
     },
     {
       icon: icon,
     },
   );
-  pinMarker.addTo(markerGroup).bindPopup(createPopup(element));
+  pinMarker.addTo(markerGroup).bindPopup(() => createPopup(ad));
 };
 
 const renderMarkers = (ads) => {

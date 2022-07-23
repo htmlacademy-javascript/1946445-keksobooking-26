@@ -1,5 +1,7 @@
+import {GET_DATA_SERVER, SEND_DATA_SERVER} from './util.js';
+
 const getData = (onSuccess) => {
-  fetch('https://26.javascript.pages.academy/keksobooking/data')
+  fetch(GET_DATA_SERVER)
     .then((response) => response.json())
     .then((ads) => {
       onSuccess(ads);
@@ -8,7 +10,7 @@ const getData = (onSuccess) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://26.javascript.pages.academy/keksobooking',
+    SEND_DATA_SERVER,
     {
       method: 'POST',
       body,

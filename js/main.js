@@ -1,11 +1,8 @@
 import './create-data.js';
-import {createPopup} from './popup.js';
 import {setUserFormSubmit, showSuccessMessage} from './form.js';
 import {getData} from './api.js';
+import {renderMarkers} from './map.js';
 
-
-getData((ads) => {
-  createPopup(ads.slice(0, 9));
-});
+getData(renderMarkers);
 
 setUserFormSubmit(showSuccessMessage);

@@ -1,5 +1,5 @@
-import {sendData} from './api.js';
-import {resetMap} from './map.js';
+import {getData, sendData} from './api.js';
+import {renderMarkers, resetMap, resetMarkers} from './map.js';
 import {showAlert} from './util.js';
 
 const formNew = document.querySelector('.ad-form');
@@ -121,17 +121,17 @@ checkout.addEventListener('change', () => {
 });
 
 
-// const disableForms = () => {
-//   formNew.classList.add('ad-form--disabled');
-//   formFilters.classList.add('.map__filters--disabled');
-//   formSlider.setAttribute('disabled', 'disabled');
-//   for (let i = 0; i < formNewComponents.length; i++) {
-//     formNewComponents[i].setAttribute('disabled', 'disabled');
-//   }
-//   for (let i = 0; i < formFiltersComponents.length; i++) {
-//     formFiltersComponents[i].setAttribute('disabled', 'disabled');
-//   }
-// };
+const disableForms = () => {
+  formNew.classList.add('ad-form--disabled');
+  formFilters.classList.add('.map__filters--disabled');
+  formSlider.setAttribute('disabled', 'disabled');
+  for (let i = 0; i < formNewComponents.length; i++) {
+    formNewComponents[i].setAttribute('disabled', 'disabled');
+  }
+  for (let i = 0; i < formFiltersComponents.length; i++) {
+    formFiltersComponents[i].setAttribute('disabled', 'disabled');
+  }
+};
 
 
 const enableForms = () => {
@@ -145,8 +145,6 @@ const enableForms = () => {
     formFiltersComponents[i].removeAttribute('disabled');
   }
 };
-
-// disableForms();
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
@@ -179,14 +177,24 @@ const removeMessageOnEsc = (evt) => {
   if (evt.keyCode === 27) {
     successMessage.remove();
     errorMessage.remove();
+    document.removeEventListener('keydown', removeMessageOnEsc);
   }
 };
 
+const removeMessageOnDocumentClick = () => {
+  successMessage.remove();
+  errorMessage.remove();
+  document.removeEventListener('keydown', removeMessageOnDocumentClick);
+};
+
 document.addEventListener('keydown', removeMessageOnEsc);
+document.addEventListener('click', removeMessageOnDocumentClick);
+
 
 const resetForm = () => {
   formNew.reset();
   resetMap();
+  resetMarkers();
   sliderElement.noUiSlider.reset();
   roomPrice.min = 1000;
   roomPrice.value = 1000;
@@ -207,9 +215,9 @@ const setUserFormSubmit = (onSuccess) => {
       sendData(
         () => {
           onSuccess();
-          unblockSubmitButton();
           resetForm();
           resetMap();
+          getData(renderMarkers);
         },
         () => {
           showAlert('Не удалось отправить форму. Попробуйте ещё раз');
@@ -224,5 +232,6 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {enableForms, formNew, blockSubmitButton, unblockSubmitButton, showSuccessMessage, showErrorMessage, resetForm, setUserFormSubmit};
+
+export {enableForms, disableForms, formNew, blockSubmitButton, unblockSubmitButton, showSuccessMessage, showErrorMessage, resetForm, setUserFormSubmit};
 
