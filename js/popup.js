@@ -46,14 +46,25 @@ const createPopup = (ad) => {
     featureContainer.textContent = '';
   }
 
+  if (ad.offer.photos?.length) {
+    photosList.textContent = '';
   ad.offer.photos.forEach((photo) => {
-    const photoNew = photosItem.cloneNode(true);
+    const photoNew = document.createElement('img');
+    photoNew.classList.add('popup__photo');
+    photoNew.width = 45;
+    photoNew.height = 40;
     photoNew.src = photo;
+    photoNew.alt = 'Фотография жилья';
     photosList.append(photoNew);
   });
   photosItem.classList.add('hidden');
-  return addElement;
 };
+if (!ad.offer.photos?.length) {
+  photosList.remove();
+}
+return addElement;
+}
+
 
 export {createPopup};
 
