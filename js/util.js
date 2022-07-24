@@ -1,6 +1,7 @@
 const ALERT_SHOW_TIME = 5000;
 const GET_DATA_SERVER = 'https://26.javascript.pages.academy/keksobooking/data';
 const SEND_DATA_SERVER = 'https://26.javascript.pages.academy/keksobooking';
+const ADS_MAX_NUMBER = 10;
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -23,4 +24,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {showAlert, GET_DATA_SERVER, SEND_DATA_SERVER};
+export {showAlert, GET_DATA_SERVER, SEND_DATA_SERVER, ADS_MAX_NUMBER};

@@ -1,8 +1,9 @@
-import {GET_DATA_SERVER, SEND_DATA_SERVER} from './util.js';
+import {ADS_MAX_NUMBER, GET_DATA_SERVER, SEND_DATA_SERVER} from './util.js';
 
 const getData = (onSuccess) => {
   fetch(GET_DATA_SERVER)
     .then((response) => response.json())
+    .then((ads) => ads.slice(0, ADS_MAX_NUMBER))
     .then((ads) => {
       onSuccess(ads);
     });
