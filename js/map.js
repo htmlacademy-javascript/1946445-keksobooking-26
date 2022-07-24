@@ -1,4 +1,3 @@
-// import { enableForms } from './form.js';
 import {createPopup} from './popup.js';
 import {ADS_MAX_NUMBER} from './util.js';
 
