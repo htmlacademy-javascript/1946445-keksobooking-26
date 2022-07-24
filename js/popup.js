@@ -33,7 +33,7 @@ const createPopup = (ad) => {
   addElement.querySelector('.popup__description').textContent = ad.offer.description;
   addElement.querySelector('.popup__avatar').src = ad.author.avatar;
 
-  if (typeof ad.offer.features !== 'undefined' && ad.offer.features.length > 0 && featureList.length > ad.offer.features.length) {
+  if (ad.offer.features && ad.offer.features.length > 0 && featureList.length > ad.offer.features.length) {
     featureContainer.textContent = '';
     ad.offer.features.forEach((index) => {
       const newFeatureItem = document.createElement('li');
@@ -42,11 +42,11 @@ const createPopup = (ad) => {
       featureContainer.append(newFeatureItem);
     });
   }
-  if (typeof ad.offer.features === 'undefined') {
+  if (!ad.offer.features) {
     featureContainer.textContent = '';
   }
 
-  if (typeof ad.offer.photos !== 'undefined' && ad.offer.photos.length > 0) {
+  if (ad.offer.photos && ad.offer.photos.length > 0) {
     photosList.textContent = '';
     ad.offer.photos.forEach((photo) => {
       const photoNew = document.createElement('img');
@@ -59,7 +59,7 @@ const createPopup = (ad) => {
     });
     photosItem.classList.add('hidden');
   }
-  if (typeof ad.offer.photos === 'undefined') {
+  if (!ad.offer.photos) {
     photosList.remove();
   }
   return addElement;

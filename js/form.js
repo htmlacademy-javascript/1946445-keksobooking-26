@@ -241,5 +241,5 @@ const setUserFormSubmit = (onSuccess) => {
 };
 
 
-export {enableForms, disableForms, formNew, blockSubmitButton, unblockSubmitButton, showSuccessMessage, showErrorMessage, resetForm, setUserFormSubmit};
+export {enableForms, disableForms, blockSubmitButton, unblockSubmitButton, showSuccessMessage, showErrorMessage, resetForm, setUserFormSubmit};
 
