@@ -68,6 +68,10 @@ noUiSlider.create(sliderElement, {
   },
 });
 
+roomPrice.addEventListener('change', () => {
+  sliderElement.noUiSlider.set([roomPrice.value, null]);
+});
+
 sliderElement.noUiSlider.on('update', () => {
   roomPrice.value = sliderElement.noUiSlider.get();
   pristine.validate(roomPrice);
@@ -97,6 +101,7 @@ const setValidator = () => {
 
 roomType.addEventListener('change', () => {
   roomPrice.placeholder = getRoomMinPrice();
+  roomPrice.value = getRoomMinPrice();
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: getRoomMinPrice(),
@@ -105,10 +110,6 @@ roomType.addEventListener('change', () => {
     start: getRoomMinPrice(),
   });
   setValidator();
-});
-
-roomPrice.addEventListener('change', () => {
-  sliderElement.noUiSlider.set([roomPrice.value, null]);
 });
 
 setValidator();
@@ -196,6 +197,13 @@ const resetForm = () => {
   resetMap();
   resetMarkers();
   sliderElement.noUiSlider.reset();
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: 1000,
+      max: roomMaxPrice
+    },
+    start: 1000,
+  });
   roomPrice.min = 1000;
   roomPrice.value = 1000;
   pristine.reset();

@@ -33,7 +33,7 @@ const createPopup = (ad) => {
   addElement.querySelector('.popup__description').textContent = ad.offer.description;
   addElement.querySelector('.popup__avatar').src = ad.author.avatar;
 
-  if (ad.offer.features?.length && featureList.length > ad.offer.features.length) {
+  if (typeof ad.offer.features !== 'undefined' && ad.offer.features.length > 0 && featureList.length > ad.offer.features.length) {
     featureContainer.textContent = '';
     ad.offer.features.forEach((index) => {
       const newFeatureItem = document.createElement('li');
@@ -42,28 +42,28 @@ const createPopup = (ad) => {
       featureContainer.append(newFeatureItem);
     });
   }
-  if (!ad.offer.features?.length) {
+  if (typeof ad.offer.features === 'undefined') {
     featureContainer.textContent = '';
   }
 
-  if (ad.offer.photos?.length) {
+  if (typeof ad.offer.photos !== 'undefined' && ad.offer.photos.length > 0) {
     photosList.textContent = '';
-  ad.offer.photos.forEach((photo) => {
-    const photoNew = document.createElement('img');
-    photoNew.classList.add('popup__photo');
-    photoNew.width = 45;
-    photoNew.height = 40;
-    photoNew.src = photo;
-    photoNew.alt = 'Фотография жилья';
-    photosList.append(photoNew);
-  });
-  photosItem.classList.add('hidden');
+    ad.offer.photos.forEach((photo) => {
+      const photoNew = document.createElement('img');
+      photoNew.classList.add('popup__photo');
+      photoNew.width = 45;
+      photoNew.height = 40;
+      photoNew.src = photo;
+      photoNew.alt = 'Фотография жилья';
+      photosList.append(photoNew);
+    });
+    photosItem.classList.add('hidden');
+  }
+  if (typeof ad.offer.photos === 'undefined') {
+    photosList.remove();
+  }
+  return addElement;
 };
-if (!ad.offer.photos?.length) {
-  photosList.remove();
-}
-return addElement;
-}
 
 
 export {createPopup};
