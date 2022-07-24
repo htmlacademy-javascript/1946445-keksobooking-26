@@ -33,7 +33,7 @@ const createPopup = (ad) => {
   addElement.querySelector('.popup__description').textContent = ad.offer.description;
   addElement.querySelector('.popup__avatar').src = ad.author.avatar;
 
-  if (featureList.length > ad.offer.features.length && ad.offer.features.length > 0) {
+  if (ad.offer.features?.length && featureList.length > ad.offer.features.length) {
     featureContainer.textContent = '';
     ad.offer.features.forEach((index) => {
       const newFeatureItem = document.createElement('li');
@@ -42,7 +42,7 @@ const createPopup = (ad) => {
       featureContainer.append(newFeatureItem);
     });
   }
-  if (ad.offer.features.length < 1) {
+  if (!ad.offer.features?.length) {
     featureContainer.textContent = '';
   }
 

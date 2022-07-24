@@ -3,7 +3,7 @@ const GET_DATA_SERVER = 'https://26.javascript.pages.academy/keksobooking/data';
 const SEND_DATA_SERVER = 'https://26.javascript.pages.academy/keksobooking';
 const ADS_MAX_NUMBER = 10;
 
-const showAlert = (message) => {
+const showAlert = () => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
   alertContainer.style.position = 'absolute';
@@ -15,7 +15,7 @@ const showAlert = (message) => {
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'red';
 
-  alertContainer.textContent = message;
+  alertContainer.textContent = 'Не удалось загрузить данные';
 
   document.body.append(alertContainer);
 
