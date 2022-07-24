@@ -1,4 +1,6 @@
-import {ADS_MAX_NUMBER, GET_DATA_SERVER, SEND_DATA_SERVER} from './util.js';
+import {enableFilters} from './filters.js';
+import {blockSubmitButton, unblockSubmitButton} from './form.js';
+import {GET_DATA_SERVER, SEND_DATA_SERVER} from './util.js';
 
 const getData = async (onSuccess, onFail) => {
   try {
@@ -7,7 +9,8 @@ const getData = async (onSuccess, onFail) => {
       throw new Error('Не удалось загрузить данные');
     }
     const advertisments = await response.json();
-    onSuccess(advertisments.slice(0, ADS_MAX_NUMBER));
+    onSuccess(advertisments);
+    enableFilters();
   } catch (error) {
     onFail(error.message);
   }
@@ -15,6 +18,7 @@ const getData = async (onSuccess, onFail) => {
 
 
 const sendData = async (onSuccess, onFail, body) => {
+  blockSubmitButton();
   try {
     const response = await fetch(
       SEND_DATA_SERVER,
@@ -30,6 +34,7 @@ const sendData = async (onSuccess, onFail, body) => {
   } catch (error) {
     onFail(error.message);
   }
+  unblockSubmitButton();
 };
 
 
