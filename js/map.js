@@ -1,16 +1,10 @@
 import {createPopup} from './popup.js';
-import {ADS_MAX_NUMBER} from './util.js';
+import {COORDINATES, ZOOM, ADS_MAX_NUMBER} from './const.js';
 
 const formNew = document.querySelector('.ad-form');
 const address = formNew.querySelector('#address');
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
-
-const COORDINATES = {
-  lat: 35.65947,
-  lng: 139.74611,
-};
-const ZOOM = 12;
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -34,7 +28,6 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
-
 
 const renderMarker = (ad) => {
   const pinMarker = L.marker(

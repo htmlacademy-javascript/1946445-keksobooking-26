@@ -1,6 +1,7 @@
 import {getData} from './api.js';
 import {renderMarkers, resetMarkers} from './map.js';
-import {ADS_MAX_NUMBER, debounce, RERENDER_DELAY} from './util.js';
+import {debounce} from './util.js';
+import {PRICE_CORRELATION, ADS_MAX_NUMBER, RERENDER_DELAY} from './const.js';
 
 const formFilters = document.querySelector('.map__filters');
 const formFiltersComponents = formFilters.children;
@@ -9,25 +10,6 @@ const priceFilter = formFilters.querySelector('#housing-price');
 const roomFilter = formFilters.querySelector('#housing-rooms');
 const guestFilter = formFilters.querySelector('#housing-guests');
 const featureFilter = formFilters.querySelector('#housing-features');
-
-const PRICE_CORRELATION = {
-  high: {
-    min: 50000,
-    max: 100000
-  },
-  middle: {
-    min: 10000,
-    max: 50000
-  },
-  low: {
-    min: 0,
-    max: 10000
-  },
-  any: {
-    min: 0,
-    max: 100000
-  }
-};
 
 const filterAllAdvertisments = (ads) => {
   const filterType = (ad) => typeFilter.value === ad.offer.type || typeFilter.value === 'any';
