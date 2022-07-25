@@ -1,10 +1,4 @@
-const TYPE_OBJECT = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель'
-};
+import {TYPE_OBJECT} from './const.js';
 
 const getRoomNumber = (quantity) => {
   if (quantity === 1) {

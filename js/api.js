@@ -1,6 +1,6 @@
 import {enableFilters} from './filters.js';
 import {blockSubmitButton, unblockSubmitButton} from './form.js';
-import {GET_DATA_SERVER, SEND_DATA_SERVER} from './util.js';
+import {GET_DATA_SERVER, SEND_DATA_SERVER} from './const.js';
 
 const getData = async (onSuccess, onFail) => {
   try {

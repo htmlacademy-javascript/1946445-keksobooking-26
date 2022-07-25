@@ -1,9 +1,4 @@
-const ALERT_SHOW_TIME = 5000;
-const GET_DATA_SERVER = 'https://26.javascript.pages.academy/keksobooking/data';
-const SEND_DATA_SERVER = 'https://26.javascript.pages.academy/keksobooking';
-const ADS_MAX_NUMBER = 10;
-const RERENDER_DELAY = 500;
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+import {ALERT_SHOW_TIME} from './const.js';
 
 const showAlert = () => {
   const alertContainer = document.createElement('div');
@@ -34,4 +29,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export {showAlert, GET_DATA_SERVER, SEND_DATA_SERVER, ADS_MAX_NUMBER, RERENDER_DELAY, debounce, FILE_TYPES};
+export {showAlert, debounce};

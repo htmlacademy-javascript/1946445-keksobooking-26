@@ -1,4 +1,4 @@
-import {FILE_TYPES} from './util.js';
+import {FILE_TYPES} from './const.js';
 
 const avatarChooser = document.querySelector('.ad-form__field').querySelector('input');
 const avatarPreview = document.querySelector('.ad-form-header__preview').querySelector('img');
