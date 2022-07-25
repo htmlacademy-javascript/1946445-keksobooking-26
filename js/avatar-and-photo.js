@@ -26,6 +26,8 @@ photoChooser.addEventListener('change', () => {
     photoContainer.textContent = '';
     const photoPreview = document.createElement('img');
     photoPreview.src = URL.createObjectURL(file);
+    photoPreview.width = 70;
+    photoPreview.height = 70;
     photoContainer.append(photoPreview);
   }
 });
