@@ -1,4 +1,4 @@
-const typeObject = {
+const TYPE_OBJECT = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
   house: 'Дом',
@@ -27,7 +27,7 @@ const createPopup = (ad) => {
   addElement.querySelector('.popup__title').textContent = ad.offer.title;
   addElement.querySelector('.popup__text--address').textContent = ad.offer.address;
   addElement.querySelector('.popup__text--price').textContent = `${ad.offer.price} ₽/ночь`;
-  addElement.querySelector('.popup__type').textContent = typeObject[ad.offer.type];
+  addElement.querySelector('.popup__type').textContent = TYPE_OBJECT[ad.offer.type];
   addElement.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} ${getRoomNumber(ad.offer.rooms)} для ${ad.offer.guests} ${(ad.offer.guests > 1) ? 'гостей' : 'гостя'}`;
   addElement.querySelector('.popup__text--time').textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
   addElement.querySelector('.popup__description').textContent = ad.offer.description;

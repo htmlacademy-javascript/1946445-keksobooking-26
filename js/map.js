@@ -1,4 +1,5 @@
 import {createPopup} from './popup.js';
+import {ADS_MAX_NUMBER} from './util.js';
 
 const formNew = document.querySelector('.ad-form');
 const address = formNew.querySelector('#address');
@@ -49,7 +50,7 @@ const renderMarker = (ad) => {
 };
 
 const renderMarkers = (ads) => {
-  ads.forEach((ad) => {
+  ads.slice(0, ADS_MAX_NUMBER).forEach((ad) => {
     renderMarker(ad);
   });
 };
@@ -62,11 +63,12 @@ const moveMainPinMarker = () => {
   });
 };
 
-const initMap = () => {
+const initMap = (cb) => {
   address.value = `Координаты: ${COORDINATES.lat}, ${COORDINATES.lng}`;
   map.on('load', () => {
     mainPinMarker.addTo(map);
     moveMainPinMarker();
+    cb();
   })
     .setView(COORDINATES, ZOOM);
   L.tileLayer(
@@ -86,7 +88,5 @@ const resetMap = () => {
 const resetMarkers = () => {
   markerGroup.clearLayers();
 };
-
-initMap();
 
 export {renderMarkers, initMap, resetMap, resetMarkers};
