@@ -3,19 +3,18 @@ import {TYPE_OBJECT} from './const.js';
 const getRoomNumber = (quantity) => {
   if (quantity === 1) {
     return 'комната';
-  } else if (quantity >= 2 && quantity <=4) {
+  } if (quantity >= 2 && quantity <=4) {
     return 'комнаты';
-  } else {
-    return 'комнат';
   }
+  return 'комнат';
 };
 
-const addTemplate = document.querySelector('#card').content.querySelector('.popup');
-const addElement = addTemplate.cloneNode(true);
-const featureContainer = addElement.querySelector('.popup__features');
-const featureList = featureContainer.querySelectorAll('.popup__feature');
-const photosList = addElement.querySelector('.popup__photos');
-const photosItem = photosList.querySelector('.popup__photo');
+const addTemplateElement = document.querySelector('#card').content.querySelector('.popup');
+const addElement = addTemplateElement.cloneNode(true);
+const featureContainerElement = addElement.querySelector('.popup__features');
+const featureListElement = featureContainerElement.querySelectorAll('.popup__feature');
+const photosListElement = addElement.querySelector('.popup__photos');
+const photosItemElement = photosListElement.querySelector('.popup__photo');
 
 const createPopup = (ad) => {
   addElement.querySelector('.popup__title').textContent = ad.offer.title;
@@ -27,21 +26,21 @@ const createPopup = (ad) => {
   addElement.querySelector('.popup__description').textContent = ad.offer.description;
   addElement.querySelector('.popup__avatar').src = ad.author.avatar;
 
-  if (ad.offer.features && ad.offer.features.length > 0 && featureList.length > ad.offer.features.length) {
-    featureContainer.textContent = '';
+  if (ad.offer.features && ad.offer.features.length > 0 && featureListElement.length > ad.offer.features.length) {
+    featureContainerElement.textContent = '';
     ad.offer.features.forEach((index) => {
       const newFeatureItem = document.createElement('li');
       newFeatureItem.classList.add('popup__feature');
       newFeatureItem.classList.add(`popup__feature--${index}`);
-      featureContainer.append(newFeatureItem);
+      featureContainerElement.append(newFeatureItem);
     });
   }
   if (!ad.offer.features) {
-    featureContainer.textContent = '';
+    featureContainerElement.textContent = '';
   }
 
   if (ad.offer.photos && ad.offer.photos.length > 0) {
-    photosList.textContent = '';
+    photosListElement.textContent = '';
     ad.offer.photos.forEach((photo) => {
       const photoNew = document.createElement('img');
       photoNew.classList.add('popup__photo');
@@ -49,12 +48,12 @@ const createPopup = (ad) => {
       photoNew.height = 40;
       photoNew.src = photo;
       photoNew.alt = 'Фотография жилья';
-      photosList.append(photoNew);
+      photosListElement.append(photoNew);
     });
-    photosItem.classList.add('hidden');
+    photosItemElement.classList.add('hidden');
   }
   if (!ad.offer.photos) {
-    photosList.remove();
+    photosListElement.remove();
   }
   return addElement;
 };

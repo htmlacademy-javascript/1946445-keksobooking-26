@@ -1,8 +1,8 @@
 import {createPopup} from './popup.js';
 import {COORDINATES, ZOOM, ADS_MAX_NUMBER} from './const.js';
 
-const formNew = document.querySelector('.ad-form');
-const address = formNew.querySelector('#address');
+const formNewElement = document.querySelector('.ad-form');
+const addressElement = formNewElement.querySelector('#address');
 const map = L.map('map-canvas');
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -52,12 +52,12 @@ const moveMainPinMarker = () => {
   mainPinMarker.on('moveend', (evt) => {
     const latitude = evt.target.getLatLng().lat.toFixed(5);
     const longitude = evt.target.getLatLng().lng.toFixed(5);
-    address.value = `Координаты: ${latitude}, ${longitude}`;
+    addressElement.value = `Координаты: ${latitude}, ${longitude}`;
   });
 };
 
 const initMap = (cb) => {
-  address.value = `Координаты: ${COORDINATES.lat}, ${COORDINATES.lng}`;
+  addressElement.value = `Координаты: ${COORDINATES.lat}, ${COORDINATES.lng}`;
   map.on('load', () => {
     mainPinMarker.addTo(map);
     moveMainPinMarker();
@@ -73,7 +73,7 @@ const initMap = (cb) => {
 };
 
 const resetMap = () => {
-  address.value = `Координаты: ${COORDINATES.lat}, ${COORDINATES.lng}`;
+  addressElement.value = `Координаты: ${COORDINATES.lat}, ${COORDINATES.lng}`;
   mainPinMarker.setLatLng(COORDINATES);
   map.setView(COORDINATES, ZOOM);
 };
