@@ -4,22 +4,6 @@ import {resetFilters} from './filters.js';
 import {renderMarkers, resetMap} from './map.js';
 import {showAlert} from './util.js';
 
-const formNew = document.querySelector('.ad-form');
-const formNewComponents = formNew.children;
-const formSlider = formNew.querySelector('.ad-form__slider');
-const roomNumber = formNew.querySelector('#room_number');
-const roomCapacity = formNew.querySelector('#capacity');
-const roomType = formNew.querySelector('#type');
-const roomPrice = formNew.querySelector('#price');
-const checkin = formNew.querySelector('#timein');
-const checkout = formNew.querySelector('#timeout');
-const sliderElement = formNew.querySelector('.ad-form__slider');
-const submitButton = formNew.querySelector('.ad-form__submit');
-const resetButton = formNew.querySelector('.ad-form__reset');
-const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-const errorCloseButton = errorMessage.querySelector('.error__button');
-
 const ROOM_NUMBER_CAPACITY_CORRELATION = {
   '1': '1',
   '2': ['2', '1'],
@@ -35,18 +19,32 @@ const ROOM_TYPE_PRICE = {
   'palace': 10000
 };
 
+const formNewElement = document.querySelector('.ad-form');
+const formNewElementComponents = formNewElement.children;
+const formSliderElement = formNewElement.querySelector('.ad-form__slider');
+const roomNumberElement = formNewElement.querySelector('#room_number');
+const roomCapacityElement = formNewElement.querySelector('#capacity');
+const roomTypeElement = formNewElement.querySelector('#type');
+const roomPriceElement = formNewElement.querySelector('#price');
+const checkinElement = formNewElement.querySelector('#timein');
+const checkoutElement = formNewElement.querySelector('#timeout');
+const sliderElement = formNewElement.querySelector('.ad-form__slider');
+const submitButtonElement = formNewElement.querySelector('.ad-form__submit');
+const resetButtonElement = formNewElement.querySelector('.ad-form__reset');
+const successMessageElement = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+const errorMessageElement = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+const errorCloseButtonElement = errorMessageElement.querySelector('.error__button');
 const roomMaxPrice = 100000;
-roomPrice.value = 1000;
+roomPriceElement.value = 1000;
 
-function getPristine() {
-  return new Pristine(formNew, {
-    classTo: 'ad-form__element',
-    errorClass: 'ad-form__element--invalid',
-    errorTextTag: 'span',
-    errorTextParent: 'ad-form__element',
-    errorTextClass: 'ad-form__error-text',
-  });
-}
+const getPristine = () => new Pristine(formNewElement, {
+  classTo: 'ad-form__element',
+  errorClass: 'ad-form__element--invalid',
+  errorTextTag: 'span',
+  errorTextParent: 'ad-form__element',
+  errorTextClass: 'ad-form__error-text',
+});
+
 let pristine = getPristine();
 
 noUiSlider.create(sliderElement, {
@@ -58,49 +56,45 @@ noUiSlider.create(sliderElement, {
   step: 100,
   connect: 'lower',
   format: {
-    to: function (value) {
-      return value.toFixed(0);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    to: (value) => value.toFixed(0),
+    from: (value) => parseFloat(value),
   },
 });
 
-roomPrice.addEventListener('change', () => {
-  sliderElement.noUiSlider.set([roomPrice.value, null]);
+roomPriceElement.addEventListener('change', () => {
+  sliderElement.noUiSlider.set([roomPriceElement.value, null]);
 });
 
 sliderElement.noUiSlider.on('update', () => {
-  roomPrice.value = sliderElement.noUiSlider.get();
-  pristine.validate(roomPrice);
+  roomPriceElement.value = sliderElement.noUiSlider.get();
+  pristine.validate(roomPriceElement);
 });
 
-const validateCapacity = (value) => ROOM_NUMBER_CAPACITY_CORRELATION[roomNumber.value].includes(value);
+const validateCapacity = (value) => ROOM_NUMBER_CAPACITY_CORRELATION[roomNumberElement.value].includes(value);
 
-formNew.addEventListener('change', () => {
-  pristine.validate(roomCapacity);
+formNewElement.addEventListener('change', () => {
+  pristine.validate(roomCapacityElement);
 });
 
-roomPrice.placeholder = 1000;
-const getRoomMinPrice = () => ROOM_TYPE_PRICE[roomType.value];
+roomPriceElement.placeholder = 1000;
+const getRoomMinPrice = () => ROOM_TYPE_PRICE[roomTypeElement.value];
 const validateRoomPrice = (value) => value >= getRoomMinPrice() && value <= roomMaxPrice;
 
 
 const setValidator = () => {
   pristine.destroy();
-  roomPrice.min = 0;
+  roomPriceElement.min = 0;
   pristine = getPristine();
   const validateRoomPriceErrorMessage = `Цена не может быть ниже ${getRoomMinPrice()}руб и выше ${roomMaxPrice}руб`;
-  pristine.addValidator(roomPrice, validateRoomPrice, validateRoomPriceErrorMessage);
-  roomPrice.min = getRoomMinPrice();
-  pristine.addValidator(roomCapacity, validateCapacity, 'Некорректное соотношение комнат и гостей');
+  pristine.addValidator(roomPriceElement, validateRoomPrice, validateRoomPriceErrorMessage);
+  roomPriceElement.min = getRoomMinPrice();
+  pristine.addValidator(roomCapacityElement, validateCapacity, 'Некорректное соотношение комнат и гостей');
   pristine.validate();
 };
 
-roomType.addEventListener('change', () => {
-  roomPrice.placeholder = getRoomMinPrice();
-  roomPrice.value = getRoomMinPrice();
+roomTypeElement.addEventListener('change', () => {
+  roomPriceElement.placeholder = getRoomMinPrice();
+  roomPriceElement.value = getRoomMinPrice();
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: getRoomMinPrice(),
@@ -113,78 +107,78 @@ roomType.addEventListener('change', () => {
 
 setValidator();
 
-checkin.addEventListener('change', () => {
-  checkout.value = checkin.value;
+checkinElement.addEventListener('change', () => {
+  checkoutElement.value = checkinElement.value;
 });
-checkout.addEventListener('change', () => {
-  checkin.value = checkout.value;
+checkoutElement.addEventListener('change', () => {
+  checkinElement.value = checkoutElement.value;
 });
 
 
 const disableForms = () => {
-  formNew.classList.add('ad-form--disabled');
-  formSlider.setAttribute('disabled', 'disabled');
-  for (let i = 0; i < formNewComponents.length; i++) {
-    formNewComponents[i].setAttribute('disabled', 'disabled');
+  formNewElement.classList.add('ad-form--disabled');
+  formSliderElement.setAttribute('disabled', 'disabled');
+  for (const i of formNewElementComponents) {
+    i.setAttribute('disabled', 'disabled');
   }
 };
 
 
 const enableForms = () => {
-  formNew.classList.remove('ad-form--disabled');
-  formSlider.removeAttribute('disabled');
-  for (let i = 0; i < formNewComponents.length; i++) {
-    formNewComponents[i].removeAttribute('disabled');
+  formNewElement.classList.remove('ad-form--disabled');
+  formSliderElement.removeAttribute('disabled');
+  for (const i of formNewElementComponents) {
+    i.removeAttribute('disabled');
   }
 };
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Публикуем...';
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Публикуем...';
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
 };
 
 const showSuccessMessage = () => {
-  document.body.appendChild(successMessage);
+  document.body.appendChild(successMessageElement);
   setTimeout(() => {
-    successMessage.remove();
+    successMessageElement.remove();
   }, 5000);
 };
 
 const showErrorMessage = () => {
-  document.body.appendChild(errorMessage);
+  document.body.appendChild(errorMessageElement);
 };
 
 const closeErrorMessage = () => {
-  errorCloseButton.addEventListener('click', () => {
-    errorMessage.remove();
+  errorCloseButtonElement.addEventListener('click', () => {
+    errorMessageElement.remove();
   });
 };
 
-const removeMessageOnEsc = (evt) => {
+const onEscRemoveMessage = (evt) => {
   if (evt.keyCode === 27) {
-    successMessage.remove();
-    errorMessage.remove();
-    document.removeEventListener('keydown', removeMessageOnEsc);
+    successMessageElement.remove();
+    errorMessageElement.remove();
+    document.removeEventListener('keydown', onEscRemoveMessage);
   }
 };
 
-const removeMessageOnDocumentClick = () => {
-  successMessage.remove();
-  errorMessage.remove();
-  document.removeEventListener('keydown', removeMessageOnDocumentClick);
+const onDocumentClickRemoveMessage = () => {
+  successMessageElement.remove();
+  errorMessageElement.remove();
+  document.removeEventListener('keydown', onDocumentClickRemoveMessage);
 };
 
-document.addEventListener('keydown', removeMessageOnEsc);
-document.addEventListener('click', removeMessageOnDocumentClick);
+document.addEventListener('keydown', onEscRemoveMessage);
+document.addEventListener('click', onDocumentClickRemoveMessage);
 
 
 const resetForm = () => {
-  formNew.reset();
+  formNewElement.reset();
   pristine.reset();
   setValidator();
   sliderElement.noUiSlider.updateOptions({
@@ -199,13 +193,13 @@ const resetForm = () => {
   resetImages();
 };
 
-resetButton.addEventListener('click', (evt) => {
+resetButtonElement.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm();
 });
 
 const setUserFormSubmit = (onSuccess) => {
-  formNew.addEventListener('submit', (evt) => {
+  formNewElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if(isValid) {
